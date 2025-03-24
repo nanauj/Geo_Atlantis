@@ -1,1 +1,18 @@
+1. get_hycom_3hr.m or ~
+2. get_TranC.m, get_temp.m -> transpC_xxx.mat, av_temp_xxxx.mat, av_salt_xxxxx.mat
+3. get_tranc_monthly_final.py, get_avs_monthly_final.py with (2) -> trans_xxxx_01.nc, avs_xxxx_01.nc ~
+4. get_hydro_final.py with (3), get_Numlayers.m, get_Boundary.m, param.prm ->  flux_xxxx_01.txt ~
+5. get_hydro_netcdf
 
+Trouble shooting
+1. avs_xxxx_01.nc,  trans_xxxx_01.nc
+time은 day 단위로 입력
+time.units 는 'days since *****)으로 
+time.dt 는 초단위로 입력해야함..
+
+2. param.prm
+1. tstart = 0
+2. tstop  = 월의 일 수 -1 , 예 1월 -> 31일, stop  = 30
+3. dt는 초로 입력 43200(12h)
+4. geofile, llgeofile 다음 bgm 파일의 절대 경로로 입력하면 D:\Dropbox\y2025\01_Atlantis\06_hydro 이렇게 입력해서 생성된 flux_xxxx_01.txt을 ncgen으로 변환하면 error 발생, 이는 "/ " 때문임. 
+5
