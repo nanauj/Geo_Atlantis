@@ -1,0 +1,20 @@
+
+솔루션 탐색기 → 프로젝트 우클릭 → 속성(Properties)
+
+C/C++ → 일반 → 추가 포함 디렉터리 (Additional Include Directories)
+
+NetCDF: C:\Program Files\netCDF\include
+
+sjwlib: <프로젝트 경로>\sjwlib\include (헤더 위치)
+
+링커 → 일반 → 추가 라이브러리 디렉터리 (Additional Library Directories)
+
+NetCDF: C:\Program Files\netCDF\lib
+
+sjwlib: <프로젝트 경로>\sjwlib\lib
+
+링커 → 입력 → 추가 종속성 (Additional Dependencies)
+
+netcdf.lib
+
+sjwlib.lib (또는 실제 이름)
