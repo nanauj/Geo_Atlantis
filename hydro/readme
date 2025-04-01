@@ -28,7 +28,7 @@
 [get_hydro_netcdf]
    └─► flux_YYYY.nc      ← Atlantis용 NetCDF hydro 파일 (최종 포맷)
 
-
+%------------------------------------------------------------------------------------------------------------------------
 Trouble shooting
 1. avs_xxxx_01.nc,  trans_xxxx_01.nc
 time은 day 단위로 입력
@@ -40,4 +40,40 @@ time.dt 는 초단위로 입력해야함..
 2. tstop  = 월의 일 수 -1 , 예 1월 -> 31일, stop  = 30
 3. dt는 초로 입력 43200(12h)
 4. geofile, llgeofile 다음 bgm 파일의 절대 경로로 입력하면 D:\Dropbox\y2025\01_Atlantis\06_hydro 이렇게 입력해서 생성된 flux_xxxx_01.txt을 ncgen으로 변환하면 error 발생, 이는 "/ " 때문임. 
-5
+
+%------------------------------------------------------------------------------------------------------------------------
+HYCOM 유속 (water_u, water_v) 단위: m/s,   [get_trans_fix.m]
+ 
+수송량 T(jj,itm,lvs) 
+T(jj,itm,lvs) = vint{jj}(lvs) * mean(mean(tt(lvind{lvs},:)));
+tt = velocity × sin(θ) 로 계산된 수직방향 유속 성분에 곱해지는 vint{jj}(lvs)는 다음과 같이 정의
+vint{jj} = dint * rdist / 1000;
+dint: 깊이 두께 (m)
+rdist: face 길이 (km)
+vint 전체: m × km = 10³ m² = 10⁶ cm² = 면적
+따라서 
+T(jj,itm,lvs)의 단위는: (m/s) × (m × km) = m² × km/s = m³/s
+즉, 각 face의 수송량 (Transport)은 단위가 m³/s 
+bxnet(bid, itm, lvs) 단위도 동일
+각 box에 유입(+) 또는 유출(-)되는 총 유량을 계산하므로 단위 역시 m³/s
+
+
+%------------------------------------------------------------------------------------------------------------------------
+param.prm
+# Units for flow data (1 = m3/s OR 0 = Sv (10^6 m3/s))
+unit_type 1
+
+%------------------------------------------------------------------------------------------------------------------------
+hydroconstruct
+calcexchange.c
+
+/* Make sure exchanges in correct units (m3/s) */
+if (st->unit_type == 0)
+   /* Sverdrups (10^6 m3/s) - multiply by 10^6 to get (m3/s) */
+	units_scalar = 1000000.0;
+else
+	/* m3/s */
+	units_scalar = 1.0;
+
+%------------------------------------------------------------------------------------------------------------------------
+최종 생성된 자료의 단위는 m³/s
