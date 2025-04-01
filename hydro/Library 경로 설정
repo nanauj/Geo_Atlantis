@@ -1,4 +1,4 @@
-Visual Studio Include/Library 경로 설정
+
 솔루션 탐색기 → 프로젝트 우클릭 → 속성(Properties)
 
 C/C++ → 일반 → 추가 포함 디렉터리 (Additional Include Directories)
