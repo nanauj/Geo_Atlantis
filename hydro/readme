@@ -1,8 +1,33 @@
-1. get_hycom_3hr.m or ~
-2. get_TranC.m, get_temp.m -> transpC_xxx.mat, av_temp_xxxx.mat, av_salt_xxxxx.mat
-3. get_tranc_monthly_final.py, get_avs_monthly_final.py with (2) -> trans_xxxx_01.nc, avs_xxxx_01.nc ~
-4. get_hydro_final.py with (3), get_Numlayers.m, get_Boundary.m, param.prm ->  flux_xxxx_01.txt ~
-5. get_hydro_netcdf
+[get_hycom_3hr.m]
+   └─► HYCOM NetCDF (.mat) 생성 (12시간 또는 3시간 간격)
+
+        ▼
+
+[get_temp3.m]
+   └─► av_temp_YYYY.mat
+   └─► av_salt_YYYY.mat
+
+[get_trans_fix.m]
+   └─► transpC_YYYY.mat
+
+        ▼
+
+[get_avs_monthly_final.py]
+   └─► avs_YYYY_MM.nc    ← 수온 / 염분 / vertical flux 포함
+
+[get_trans_monthly_final.py]
+   └─► trans_YYYY_MM.nc  ← face transport 포함
+
+        ▼
+
+[get_hydro_final.py] + param.prm + [get_Numlayers.m, get_Boundary.m]
+   └─► flux_YYYY_MM.txt  ← Atlantis hydro 텍스트 입력파일
+
+        ▼
+
+[get_hydro_netcdf]
+   └─► flux_YYYY.nc      ← Atlantis용 NetCDF hydro 파일 (최종 포맷)
+
 
 Trouble shooting
 1. avs_xxxx_01.nc,  trans_xxxx_01.nc
